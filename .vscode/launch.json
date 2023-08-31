@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/c/tmsim/tmsim",
+            "program": "${workspaceFolder}/tmsim",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",
