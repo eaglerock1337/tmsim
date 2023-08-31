@@ -51,6 +51,13 @@
 static char panel_line[]  = "    ---------------------------------------------\n";
 static char panel_line2[] = "    |----------|----------|----------|----------|\n";
 
+static char* general_actions[] = {
+    "  - H - get this HELP page\n",
+    "  - L - get a LOOK around again\n",
+    "  - P - PAUSE the simulator\n"
+};
+#define GEN_ACTIONS     (sizeof(general_actions)/sizeof(general_actions[0]))
+
 /***** primary input buffer *****/
 
 static char input_buffer[32];       // half-size of print buffer
@@ -70,8 +77,11 @@ void enter_sim_loop(struct time_machine*, struct player*);
 // view - sitting inside the time machine
 void view_inside(struct time_machine*, struct player*);
 
-// view - looking at the control panel
+// view - looking at the main control panel
 void view_control_panel(struct time_machine*, struct player*);
+
+// view - looking at the auxillary control panel
+void view_aux_panel(struct time_machine*, struct player*);
 
 // view - looking at the breaker panel
 void view_breaker_panel(struct time_machine*, struct player*);
@@ -99,8 +109,8 @@ void action_help(void);
 // action - pause the game
 void action_pause(struct player*);
 
-// action - press one of the critical part buttons
-void action_crit_button(struct time_machine*, struct player*, uint8_t);
+// action - press one of the critical or auxillary buttons
+void action_button(struct time_machine*, struct player*, uint8_t, bool);
 
 // action - attempt to engage the critical power lockout
 void action_power_lock(struct time_machine*, struct player*);

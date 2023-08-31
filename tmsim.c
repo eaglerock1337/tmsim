@@ -4,7 +4,7 @@
 
 /**********************************************************
 * TMSim - a nominally fun time-travelling simulator
-*         version 0.0.6 by Peter Marks
+*             by Peter Marks
 *
 * nominal: (adj) existing in name only.
 *

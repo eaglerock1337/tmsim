@@ -78,7 +78,7 @@ void view_control_panel(struct time_machine* tm, struct player* p) {
         p->new_view = false;
         uint8_t pwr = tm->crit_power;
         narrate("\nYou are looking at the main control panel.\n", NORM);
-        narrate("\nThe panel, labeled 'Critical Parts', shows the following:\n", NORM);
+        narrate("\nThe panel, labeled 'CRITICAL PARTS', shows the following:\n", NORM);
         narrate(panel_line, FAST);
         narrate("    |Power Bank|Power Unit|Life Supp.| Air Lock |\n", FAST);
         narrate(panel_line2, FAST);
@@ -98,19 +98,18 @@ void view_control_panel(struct time_machine* tm, struct player* p) {
         narrate(print, FAST);
         narrate(panel_line, FAST);
         narrate("You can press one of the numbered buttons or [0] look away.\n", NORM);
-
     } else {
-        narrate("\nYou are still sitting inside the time machine.\n", NORM);
+        narrate("\nYou are still looking at the main control panel.\n", NORM);
     }
     delay(2048);
     input[0] = get_response();     // pull one char into the input buffer
     switch(input[0]) {
-    case ACTION_ONE:    action_crit_button(tm, p, POWER);       break;
-    case ACTION_TWO:    action_crit_button(tm, p, SUPPORT);     break;
-    case ACTION_THREE:  action_crit_button(tm, p, AIRLOCK);     break;
-    case ACTION_FOUR:   action_crit_button(tm, p, CIRCUITS);    break;
-    case ACTION_FIVE:   action_crit_button(tm, p, CONSOLE);     break;
-    case ACTION_SIX:    action_crit_button(tm, p, RC2014);      break;
+    case ACTION_ONE:    action_button(tm, p, POWER, true);      break;
+    case ACTION_TWO:    action_button(tm, p, SUPPORT, true);    break;
+    case ACTION_THREE:  action_button(tm, p, AIRLOCK, true);    break;
+    case ACTION_FOUR:   action_button(tm, p, CIRCUITS, true);   break;
+    case ACTION_FIVE:   action_button(tm, p, CONSOLE, true);    break;
+    case ACTION_SIX:    action_button(tm, p, RC2014, true);     break;
     case ACTION_SEVEN:  action_power_lock(tm, p);               break;
     case ACTION_ZERO:   
         narrate("You look away from the control panel.\n", SLOW);
@@ -169,7 +168,12 @@ void view_repairs(struct time_machine* tm, struct player* p) {
 /***** simulator action functions *****/
 
 void action_help(void) {
-    narrate("I'll bet you want help.\n", SLOW);
+    narrate("\nTo select an action listed above, type the number in bars\n"
+            "next to it (e.g. |2|) and press enter.\n", NORM);
+    narrate("\nType the following letter for these general actions:\n", NORM);
+    for (int i = 0; i < GEN_ACTIONS; i++) {
+        narrate(general_actions[i], NORM);
+    }
     delay(8192);
 }
 
@@ -178,19 +182,23 @@ void action_pause(struct player* p) {
     p->paused = true;
 }
 
-void action_crit_button(struct time_machine* tm, struct player* p, uint8_t part) {
-    char* part_name = get_critical_part(part);
-    if (get_critical_fault(part, tm->crit_status)) {
+void action_button(struct time_machine* tm, struct player* p, uint8_t part, bool is_crit) {
+    char* part_name = is_crit ? get_critical_part(part) : get_auxillary_part(part);
+    bool is_fault = is_crit ? get_critical_fault(part, tm->crit_status)
+                            : get_auxillary_fault(part, tm->aux_status);
+    bool is_on = is_crit ? get_critical_power(part, tm->crit_power)
+                         : get_auxillary_power(part, tm->aux_power);
+    if (is_fault) {
         snprintf(print, PRINT_BUF, "\nPressing the %s button did nothing.\n", part_name);
         narrate(print, NORM);
         narrate("It still is displaying a fault ('FLT') status.\n", NORM);
-    } else if (get_critical_power(part, tm->crit_power)) {
+    } else if (is_on) {
         turn_off_part(part, true, tm);
         snprintf(print, PRINT_BUF, "\nAfter pressing the button, the %s turns off.\n", part_name);
         narrate(print, NORM);
         narrate("\nThe control panel lights flicker and update the display.\n", NORM);
         p->new_view = true;     // let user see refreshed panel
-    } else if (turn_on_part(part, true, tm)) {
+    } else if (turn_on_part(part, is_crit, tm)) {
         snprintf(print, PRINT_BUF, "\nAfter pressing the button, the %s turns on.\n", part_name);
         narrate(print, NORM);
     } else {
