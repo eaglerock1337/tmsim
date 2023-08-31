@@ -1,0 +1,12 @@
+# Leaving these out since they aren't my stuff
+disks/obsolescence
+utils/searle
+searle
+
+# C compiler stuff
+# tmsim
+*.o
+*.bin
+*.com
+*.ihx
+c/tmsim/tmsim
