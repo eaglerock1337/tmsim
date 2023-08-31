@@ -14,3 +14,4 @@
 |0.0.9|8/29/23|sim loop input & inside view|
 |0.1.0|8/30/23|more sim loop, control view, and new repo|
 |0.1.1|8/31/23|help command for sim loop|
+|0.1.2|8/31/23|auxillary control view done|

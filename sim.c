@@ -17,6 +17,7 @@ void sim_loop(struct time_machine* tm, struct player* p) {
         switch (p->view) {
         case VIEW_INSIDE:       view_inside(tm, p);         break;
         case VIEW_CONTROL:      view_control_panel(tm, p);  break;
+        case VIEW_AUXILLARY:    view_aux_panel(tm, p);      break;
         case VIEW_BREAKER:      view_breaker_panel(tm, p);  break;
         case VIEW_COMPUTER:     view_computer(tm, p);       break;
         case VIEW_CONSOLE:      view_console(tm, p);        break;
@@ -54,7 +55,7 @@ void view_inside(struct time_machine* tm, struct player* p) {
                 " |1| the main CONTROL panel, the |2| AUXILLARY control panel,\n", FAST);
         narrate(" |3| the circuit BREAKER panel,  |4| the COMPUTER and CONSOLE,\n"
                 " |5| a STORAGE compartment, and  |6| the airlock to the OUTSIDE.\n", FAST);
-        narrate("You can also |7| make REPAIRS or |8| get some REST.\n", NORM);
+        narrate("You can also |7| make REPAIRS or |8| get some REST.\n", FAST);
     } else {
         narrate("\nYou are still sitting inside the time machine.\n", NORM);
     }
@@ -97,7 +98,7 @@ void view_control_panel(struct time_machine* tm, struct player* p) {
                  get_power_status(tm, PWR_LOCK, true));
         narrate(print, FAST);
         narrate(panel_line, FAST);
-        narrate("You can press one of the numbered buttons or [0] look away.\n", NORM);
+        narrate("You can press one of the numbered buttons or |0| look away.\n", FAST);
     } else {
         narrate("\nYou are still looking at the main control panel.\n", NORM);
     }
@@ -113,6 +114,50 @@ void view_control_panel(struct time_machine* tm, struct player* p) {
     case ACTION_SEVEN:  action_power_lock(tm, p);               break;
     case ACTION_ZERO:   
         narrate("You look away from the control panel.\n", SLOW);
+        p->view = VIEW_INSIDE; p->new_view = true;              break;
+    default:    check_general_actions(tm, p, input[0]);
+    }
+}
+
+void view_aux_panel(struct time_machine* tm, struct player* p) {
+    if (p->new_view) {
+        p->new_view = false;
+        uint8_t pwr = tm->aux_power;
+        narrate("\nYou are looking at the auxillary control panel.\n", NORM);
+        narrate("\nThe panel, labeled 'AUXILLARY PARTS', shows the following:\n", NORM);
+        narrate(panel_line, FAST);
+        narrate("    |Tot. Aggro|Threat Sen|Inv Shield|Hover Prop|\n", FAST);
+        narrate(panel_line2, FAST);
+        snprintf(print, PRINT_BUF, "    |%3i aggro | |1| %3s  | |2| %3s  | |3| %3s  |\n",
+                 // TODO: fix this
+                 get_power_status(tm, SENSORS, false) ? p->aggro : -1,
+                 get_power_status(tm, SENSORS, false),
+                 get_power_status(tm, SHIELD, false),
+                 get_power_status(tm, HOVER, false));
+        narrate(print, FAST);
+        narrate(panel_line, FAST);
+        narrate("    |Tot.Energy|Tesla Coil|Mr. Fusion|Steam Gen.|\n", FAST);
+        narrate(panel_line2, FAST);
+        snprintf(print, PRINT_BUF, "    | %6ikJ | |4| %3s  | |5| %3s  | |6| %3s  |\n",
+                 tm->energy, get_power_status(tm, TESLA, false),
+                 get_power_status(tm, FUSION, false),        
+                 get_power_status(tm, STEAM, false));
+        narrate(print, FAST);
+        narrate(panel_line, FAST);
+        narrate("You can press one of the numbered buttons or |0| look away.\n", FAST);
+    } else {
+        narrate("\nYou are still looking at the auxillary control panel.\n", NORM);
+    }
+    delay(2048);
+    input[0] = get_response();     // pull one char into the input buffer
+    switch(input[0]) {
+    case ACTION_ONE:    action_button(tm, p, SENSORS, false);    break;
+    case ACTION_TWO:    action_button(tm, p, SHIELD, false);     break;
+    case ACTION_THREE:  action_button(tm, p, HOVER, false);      break;
+    case ACTION_FOUR:   action_button(tm, p, TESLA, false);      break;
+    case ACTION_FIVE:   action_button(tm, p, FUSION, false);     break;
+    case ACTION_ZERO:   
+        narrate("You look away from the control panel.\n", NORM);
         p->view = VIEW_INSIDE; p->new_view = true;              break;
     default:    check_general_actions(tm, p, input[0]);
     }
