@@ -50,6 +50,9 @@
 
 static char panel_line[]  = "    ---------------------------------------------\n";
 static char panel_line2[] = "    |----------|----------|----------|----------|\n";
+static char breaker_line[]  = "-------------------------------------------------------------\n";
+
+static char* breaker_disp[] = {"FLT", "NOM" };
 
 static char* general_actions[] = {
     "  - H - get this HELP page\n",

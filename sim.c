@@ -77,7 +77,6 @@ void view_inside(struct time_machine* tm, struct player* p) {
 void view_control_panel(struct time_machine* tm, struct player* p) {
     if (p->new_view) {
         p->new_view = false;
-        uint8_t pwr = tm->crit_power;
         narrate("\nYou are looking at the main control panel.\n", NORM);
         narrate("\nThe panel, labeled 'CRITICAL PARTS', shows the following:\n", NORM);
         narrate(panel_line, FAST);
@@ -122,7 +121,6 @@ void view_control_panel(struct time_machine* tm, struct player* p) {
 void view_aux_panel(struct time_machine* tm, struct player* p) {
     if (p->new_view) {
         p->new_view = false;
-        uint8_t pwr = tm->aux_power;
         narrate("\nYou are looking at the auxillary control panel.\n", NORM);
         narrate("\nThe panel, labeled 'AUXILLARY PARTS', shows the following:\n", NORM);
         narrate(panel_line, FAST);
@@ -163,12 +161,48 @@ void view_aux_panel(struct time_machine* tm, struct player* p) {
     }
 }
 
+/*
+-------------------------------------------------------------
+|   CRITICAL  PARTS    | Num./Status |   AUXILLARY  PARTS   |
+-------------------------------------------------------------
+| Power Distrib. Unit  | NOM |1| NOM | Threat Sensor System |
+| asdfasdfasdfasdfas  | FLT ||2|| NOM | Something else       |
+*/
+
 void view_breaker_panel(struct time_machine* tm, struct player* p) {
-    // TODO: breaker panel goes here
-    p->new_view = false;
-    narrate("The breaker panel dun broke.\n", SLOW);
-    delay(8192);
-    p->view = VIEW_INSIDE;
+    if (p->new_view) {
+        p->new_view = false;
+        narrate("\nYou are looking at the circuit breaker panel.\n", NORM);
+        narrate("\nThe panel is organized into two columns of part statuses:\n", NORM);
+        narrate(breaker_line, FAST);
+        narrate("|   CRITICAL   PARTS   | Bank/Status |   AUXILLARY  PARTS   |\n", FAST);
+        narrate(breaker_line, FAST);
+        for (int i = 0; i < 6; i++) {
+        snprintf(print, PRINT_BUF, "| %20s | %3s |%i| %3s | %20s |\n",
+                 get_critical_part(i),
+                 breaker_disp[get_critical_fault(i, tm->crit_status)], i,
+                 breaker_disp[get_auxillary_fault(i, tm->aux_status)],
+                 get_auxillary_part(i));
+        narrate(print, FAST);
+        }
+        narrate(breaker_line, FAST);
+        narrate("You can press one of the numbered buttons or |0| look away.\n", FAST);
+    } else {
+        narrate("\nYou are still looking at the circuit breaker panel.\n", NORM);
+    }
+    delay(2048);
+    input[0] = get_response();     // pull one char into the input buffer
+    switch(input[0]) {
+    case ACTION_ONE:    action_button(tm, p, SENSORS, false);    break;
+    case ACTION_TWO:    action_button(tm, p, SHIELD, false);     break;
+    case ACTION_THREE:  action_button(tm, p, HOVER, false);      break;
+    case ACTION_FOUR:   action_button(tm, p, TESLA, false);      break;
+    case ACTION_FIVE:   action_button(tm, p, FUSION, false);     break;
+    case ACTION_ZERO:   
+        narrate("You look away from the control panel.\n", NORM);
+        p->view = VIEW_INSIDE; p->new_view = true;              break;
+    default:    check_general_actions(tm, p, input[0]);
+    }
 }
 
 void view_computer(struct time_machine* tm, struct player* p) {
