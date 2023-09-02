@@ -1,15 +1,19 @@
-# standard gcc (or similar compiler) files
-OFILES=tmsim.o tm.o sim.o tdos.o player.o text.o
+# standard c source code files
 CFILES=tmsim.c tm.c sim.c tdos.c player.c text.c
+# generic c compiler ofiles
+OFILES=tmsim.o tm.o sim.o tdos.o player.o text.o
 # z88dk/sdcc compiler files for rc2014
 ZFILES=tmsim.ihx tmsim_BSS.bin tmsim_CODE.bin
-CFLAGS= -D DEBUG
+
+# gcc compiler cflags
+CFLAGS := -D
+# debug flag
+CFLAGS += DEBUG
+# feature flag
+# CFLAGS += MYFEATURE
 
 build:  $(OFILES)
 	gcc -o tmsim $(OFILES) -lm
-
-debug:  $(OFILES)
-	gcc -o tmsim $(CFLAGS) $(OFILES) -lm
 
 rcbuild:
 	docker run -v ${PWD}:/src/ -it z88dk/z88dk \

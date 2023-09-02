@@ -14,6 +14,9 @@ int main (void) {
     uint8_t difficulty = 5;
     struct player me;
     struct time_machine tm;
+#ifdef DEBUG
+    narrate("Running tmsim in debug mode.\n", NORM);
+#endif
     initialize_player(difficulty, &me);
     initialize_tm(difficulty, &tm);
     reset_part(HOVER, false, false, &tm);
