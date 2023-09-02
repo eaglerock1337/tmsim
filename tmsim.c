@@ -6,7 +6,7 @@
 * TMSim - a nominally fun time-travelling simulator
 *             by Peter Marks
 *
-* nominal: (adj) existing in name only.
+* nom·i·nal adj. existing in name only.
 *
 **********************************************************/
 

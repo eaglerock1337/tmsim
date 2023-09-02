@@ -1,12 +1,16 @@
-# TMSim - A nominally fun time machine simulator
+# tmsim - a nominally fun time machine simulator
+
+**nom·i·nal** /ˈnämən(ə)l/ *adj.* **1.** existing in name only.
 
 ## about
 
 I'll tell you a story all about it later.
 
+For now, it's a game. With luck and ambition, it might be a fun one.
+
 ## architecture
 
-> This is me trying to divide and conquer, so this might change up.
+> This is me trying to divide and conquer, so this might change up a bit.
 
 The project is broken down into multiple modules, the main ones being:
 
