@@ -11,6 +11,7 @@
 // basic power status
 #define OFF     0
 #define ON      1
+#define IS_FLT  2
 
 // power string constants
 static char* power_str[] = {"OFF", "ON", "FLT"};
@@ -143,17 +144,11 @@ void initialize_tm(uint8_t, struct time_machine*);
 
 /***** bitwise helper functions *****/
 
-// get bitwise power status of a critical part by ID
-bool get_critical_power(uint8_t, uint8_t);
+// get power status based on part ID and type
+bool get_power_status(struct time_machine*, uint8_t, bool);
 
-// get bitwise fault status of a critical part by ID
-bool get_critical_fault(uint8_t, uint8_t);
-
-// get bitwise power status of an auxillary part by ID
-bool get_auxillary_power(uint8_t, uint8_t);
-
-// get bitwise fault status of an auxillary part by ID
-bool get_auxillary_fault(uint8_t, uint8_t);
+// get fault status based on part ID and type
+bool get_fault_status(struct time_machine*, uint8_t, bool);
 
 // set a bit or bits with the provided mask
 void set_bits(uint8_t* byte, uint8_t mask);
@@ -203,16 +198,16 @@ void turn_off_part(uint8_t, bool, struct time_machine*);
 /***** print functions *****/
 
 // returns a critical part name based on its array ID
-char* get_critical_part(uint8_t);
+char* print_critical_part(uint8_t);
 
 // returns an auxillary part name based on its array ID
-char* get_auxillary_part(uint8_t);
+char* print_auxillary_part(uint8_t);
 
 // returns a computer part name based on its array ID
-char* get_computer_part(uint8_t);
+char* print_computer_part(uint8_t);
 
 // returns a printable power status based on ID
-char* get_power_status(struct time_machine*, uint8_t, bool);
+char* print_power_status(struct time_machine*, uint8_t, bool);
 
 // return the status display for the given status id
 char* status_disp(uint8_t);

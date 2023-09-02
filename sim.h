@@ -52,7 +52,7 @@ static char panel_line[]  = "    ---------------------------------------------\n
 static char panel_line2[] = "    |----------|----------|----------|----------|\n";
 static char breaker_line[]  = "-------------------------------------------------------------\n";
 
-static char* breaker_disp[] = {"FLT", "NOM" };
+static char* breaker_disp[] = {"NOM", "FLT" };
 
 static char* general_actions[] = {
     "  - H - get this HELP page\n",
@@ -60,12 +60,6 @@ static char* general_actions[] = {
     "  - P - PAUSE the simulator\n"
 };
 #define GEN_ACTIONS     (sizeof(general_actions)/sizeof(general_actions[0]))
-
-/***** primary input buffer *****/
-
-static char input_buffer[32];       // half-size of print buffer
-static char* input = input_buffer;  // TDOS command string buffer
-#define INPUT_BUF       (sizeof(input)/sizeof(input*))
 
 /***** main simulator functions *****/
 
@@ -114,6 +108,9 @@ void action_pause(struct player*);
 
 // action - press one of the critical or auxillary buttons
 void action_button(struct time_machine*, struct player*, uint8_t, bool);
+
+// action - trip or reset one of the circuit breakers
+void action_breaker(struct time_machine*, struct player*, uint8_t, bool);
 
 // action - attempt to engage the critical power lockout
 void action_power_lock(struct time_machine*, struct player*);

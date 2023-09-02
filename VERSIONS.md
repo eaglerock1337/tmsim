@@ -15,3 +15,4 @@
 |0.1.0|8/30/23|more sim loop, control view, and new repo|
 |0.1.1|8/31/23|help command for sim loop|
 |0.1.2|8/31/23|add auxillary control view|
+|0.1.5|9/2/23|add breaker panel & optimizations|

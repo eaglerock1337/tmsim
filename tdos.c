@@ -24,9 +24,8 @@ void tdos_command_loop(struct time_machine* tm, struct player* p) {
         printdos(print, tm->status.computer);       // string print buffer
         // TODO: proper scan function that sanitizes character input
         scanf("%s", cmd);
-#ifdef RC
-        // this is way easier than dealing with C compiler pragmas
-        printdos("\n", tm->status.computer);
+#ifdef RC   // this is way easier than dealing with C compiler pragmas
+        printf("\n");
 #endif
         uint8_t cmd_id = check_cmd(cmd);
         switch (cmd_id) {
@@ -107,7 +106,7 @@ bool cold_boot(struct time_machine* tm) {
     for (int i = 0; i < 6; i++) {
         uint8_t val = get_condition(&tm->parts.computer[i]);
         worst_val = (val > worst_val) ? val : worst_val;
-        snprintf(print, PRINT_BUF, "%-20s- %s\n", get_computer_part(i),
+        snprintf(print, PRINT_BUF, "%-20s- %s\n", print_computer_part(i),
                  status_disp(get_part_status(val)));
         tmprint(print, SLOW_TDOS);      // string formatting buffer
         delay(1024);
@@ -220,8 +219,8 @@ void cmd_odds(struct time_machine* tm, struct player* p) {
 /***** tdos protected command functions *****/
 
 void cmd_lookaway(struct time_machine* tm, struct player* p) {
-    printdos("You look away from the console.\n", tm->status.computer);
     lineprint('_', 64);
+    printdos("You look away from the console.\n", tm->status.computer);
     delay(4096);
     p->view = VIEW_INSIDE;
 }

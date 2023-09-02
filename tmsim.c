@@ -16,6 +16,7 @@ int main (void) {
     struct time_machine tm;
     initialize_player(difficulty, &me);
     initialize_tm(difficulty, &tm);
+    reset_part(HOVER, false, false, &tm);
     enter_sim_loop(&tm, &me);
     return 0;
 }

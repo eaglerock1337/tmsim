@@ -1,6 +1,7 @@
 #ifndef TEXT_H_
 #define TEXT_H_
 
+#include <stdbool.h>
 #include <stdint.h>
 
 /***************************************
@@ -25,9 +26,9 @@
 // delay array mappings (matching above)
 static const uint16_t delays[8] = {
     144, 
-    640, 
-    256, 
-    160,
+    448, 
+    224, 
+    128,
     512, 
     256, 
     192, 
@@ -42,6 +43,14 @@ static const uint16_t delays[8] = {
 #endif
 // TODO: sync the delay loop to 1ms and add RTC delay support,
 //       then integrate both into a single delay function
+
+/***** I/O buffers *****/
+
+// input buffer shared by all modules
+static char input_buffer[32];       // half-size of print buffer
+static char* input = input_buffer;  // TDOS command string buffer
+#define INPUT_BUF       (sizeof(input)/sizeof(input*))
+
 
 // print buffer shared by all modules
 #define PRINT_BUF   64
@@ -59,5 +68,8 @@ void lineprint(char, uint8_t);
 
 // get a single-character response from the player
 int get_response(void);
+
+// get a 'yes' confirmation from the player
+bool confirm(void);
 
 #endif

@@ -32,6 +32,19 @@ void lineprint(char dash, uint8_t size) {
 
 int get_response(void) {
     tmprint("\nWhat would you like to do? (press a # or h for help): ", NORM_NARR);
-    scanf("%s", print);
-    return toupper((int)print[0]);
+    scanf("%s", input);
+#ifdef RC   // this is way easier than dealing with C compiler pragmas
+        printf("\n");
+#endif
+    return toupper((int)input[0]);
+}
+
+bool confirm(void) {
+    tmprint("Are you sure? Type 'yes' to confirm: ", NORM_NARR);
+    scanf("%s", input);
+    for (int i = 0; i < strlen(input); i++) {
+        input[i] = toupper(input[i]);
+    }
+    printf("Cheoprint: %s", input);
+    return strcmp(input, "YES") == 0 ? true : false;
 }
