@@ -6,7 +6,7 @@
 
 I'll tell you a story all about it later.
 
-For now, it's a game. With luck and ambition, it might be a fun one.
+For now, I am documenting the [versions](./VERSIONS.md) and have documented some [history](./HISTORY.md).
 
 ## architecture
 

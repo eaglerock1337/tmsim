@@ -16,3 +16,7 @@
 |0.0.2|8/24/23|proper string I/O buffers|
 |0.0.1|8/23/23|basic printloop compiling for both x64 and Z80 systems|
 |0.0.0|8/13/23|current attempt start date|
+
+## other attempts
+
+See [HISTORY.md](./HISTORY.md).
