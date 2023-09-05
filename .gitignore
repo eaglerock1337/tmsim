@@ -1,5 +1,5 @@
 # C compiler stuff
-tmsim
+./tmsim
 *.o
 *.bin
 *.com
