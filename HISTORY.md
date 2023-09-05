@@ -104,20 +104,26 @@ The file header from the Sinclair BASIC attempt.
   - learned Z80 assembler and low-level programming in general
   - realized writing the program in C made the most sense
 - new architecture
-  - since I do not have a Spectrum Next yet, I'm writing for the RC2014
-  - simple lineprinter graphics are to be used for universal system support
-  - ncurses will then be added for vt100 & color support
-  - Cython will be introduced afterwards for further portability
-- target systems (in order per compiler):
-  - Z80 (z88dk compiler) targets:
-    - RC2014 (basic lineprinter graphics)
+  - start with the simplest system & iterate outwards
+  - RC2014 with simple lineprinter graphics comes first
+  - ZX Spectrum graphics can then be added next with the C standard library
+  - ncurses will later be added for vt100 & color support
+  - finally, Cython will be introduced for further portability
+- cross-compiler support:
+  - z88dk compiler (Z80 CPU-based) targets:
+    - RC2014
     - ZX Spectrum
     - ZX Spectrum Next
-  - x64 (gcc compiler) targets:
-    - basic lineprinter graphics
-    - ncurses-based Linux terminal game
-    - Cython-based cross-platform UI game
-    - Cython-based microservice for hosted web game
+  - gcc compiler targets:
+    - x86
+    - x86_64
+    - ARM
+- planned versions
+  - RC2014 version - lineprinter graphics for all systems
+  - ZX Spectrum version - Spectrum graphics using C standard library
+  - ZX Spectrum Next version - extended version of game w/bank-swapping
+  - ncurses version - extended version using color ncurses-based graphics
+  - GUI version - version using Cython-based graphics & modules
 - low-level, assembly-style code
   - vanilla C will be used for the RC2014 & all Z80 targets
     - nothing but the C standard library is required at first
