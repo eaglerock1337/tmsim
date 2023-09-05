@@ -1,6 +1,6 @@
 # tmsim history
 
-This project has failed many times before:
+Failure is a stepping-stone towards success. This project has failed many times before:
 
 ## circa 1999 - original time machine simulator game
 
@@ -23,10 +23,12 @@ This project has failed many times before:
   - original design was object-oriented
   - bash script for Linux terminals
   - written in Perl
-- many good ideas written down
-- some object-oriented design was attempted
-- nothing much amounted outside of notes
+- original attempt outcome
+  - many good ideas written down
+  - some object-oriented design was attempted
+  - no code written - only game design notes
 - failed due to getting hung up on object-oriented design
+- learned the basic game I wanted to write
 
 ## Feb 2012 - second Perl-based attempt of tmsim
 
@@ -36,6 +38,7 @@ This project has failed many times before:
 - I had an idea of using a string buffer for the screen refresh routine
 - the idea would have worked but I didn't trust my idea over ncurses
 - failed due to not trusting the string buffer idea in the first place
+- learned that a cryptic scripting language isn't the best choice
   
 ```perl
 #!/usr/bin/perl
@@ -51,6 +54,7 @@ use strict;
 use warnings;
 
 sub printOSscreen {
+
 ```
 
 The entirety of my 2012 attempt at tmsim in Perl.
@@ -61,6 +65,7 @@ The entirety of my 2012 attempt at tmsim in Perl.
 - I wrote several test scrips with ncurses but didn't get far
 - this attempt only was a brief idea after I got frustrated from last time
 - failed due to the complexity of the research I was unboxing
+- learned that ncurses isn't as hard as it first appeared
 
 ## circa 2018 - attempt 4: encapsulated with Python
 
@@ -69,6 +74,8 @@ The entirety of my 2012 attempt at tmsim in Perl.
 - use simple functions for main game routine
 - started to write some data structure ideas
 - introduced wear/tear part mechanic idea
+- failed due to stalling on object-oriented design again
+- learned that OOP isn't right for me & this game
 
 ## Sep 2020 - attempt 5: simple game loop in Sinclair BASIC
 
@@ -98,12 +105,27 @@ The file header from the Sinclair BASIC attempt.
   - realized writing the program in C made the most sense
 - new architecture
   - since I do not have a Spectrum Next yet, I'm writing for the RC2014
-  - the code is designed to be portable to many systems
+  - simple lineprinter graphics are to be used for universal system support
+  - ncurses will then be added for vt100 & color support
+  - Cython will be introduced afterwards for further portability
+- target systems (in order per compiler):
   - Z80 (z88dk compiler) targets:
-    - RC2014 (lineprinter graphics)
-    - ZX Spectrum Next (spectrum graphics)
+    - RC2014 (basic lineprinter graphics)
+    - ZX Spectrum
+    - ZX Spectrum Next
   - x64 (gcc compiler) targets:
-    - ncurses-based Linux game
-    - microservice-based web game
-  - writing in a low-level, assembly-language style of code
+    - basic lineprinter graphics
+    - ncurses-based Linux terminal game
+    - Cython-based cross-platform UI game
+    - Cython-based microservice for hosted web game
+- low-level, assembly-style code
+  - vanilla C will be used for the RC2014 & all Z80 targets
+    - nothing but the C standard library is required at first
+    - ncurses library is later needed to support Linux terminal graphics
+    - *no* C++ is necessary to keep this nice and simple
+  - Cython will then be introduced for wrapping the C code
+    - encapsulation can then be introduced without C++ nonsense
+    - Cython classes can be implemented to interface with C routines
+    - this will then allow for quick addition of advanced features
+    - a GUI-based and web-based games are future targets
 - for the incremental work on this, see [VERSIONS.md](./VERSIONS.md)

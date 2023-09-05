@@ -1,6 +1,8 @@
+# compiled game binaries
+tmsim
+*.com
+
 # C compiler stuff
-./tmsim
 *.o
 *.bin
-*.com
 *.ihx
