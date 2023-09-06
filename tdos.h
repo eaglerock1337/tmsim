@@ -13,31 +13,36 @@
 
 /***** command constants & preprocessor declarations *****/
 
-#define VERSION         "0.1.5"
-#define COMPILED        "09/02/2023"
+#define VERSION         "0.1.6"
+#define COMPILED        "09/06/2023"
 
 // normal commands (allows for shortcuts)
-#define CMD_STATUS      0
-#define CMD_DATE        1
-#define CMD_SENSORS     2
-#define CMD_HELP        3
-#define CMD_CIRCUITS    4
-#define CMD_CALCULATE   5
-#define CMD_INVENTORY   6
-#define CMD_PLAYER      7
-#define CMD_SHIELD      8
-#define CMD_MOVE        9
-#define CMD_REPORT      10
-#define CMD_ODDS        11
+enum normal_commands {
+    CMD_STATUS,
+    CMD_DATE,
+    CMD_SENSORS,
+    CMD_HELP,
+    CMD_CIRCUITS,
+    CMD_CALCULATE,
+    CMD_INVENTORY,
+    CMD_PLAYER,
+    CMD_SHIELD,
+    CMD_MOVE,
+    CMD_REPORT,
+    CMD_ODDS,
+};
 
 // protected commands (full command required)
-#define CMD_LOOKAWAY    50
-#define CMD_TRAVEL      51
-#define CMD_EXIT        52
-#define CMD_EMERGENCY   53
+enum protected_commands {
+    CMD_LOOKAWAY = 50,
+    CMD_TRAVEL,
+    CMD_EXIT,
+    CMD_EMERGENCY
+};
 
 #define TOTAL_CMD       (sizeof(cmd_list)/sizeof(cmd_list[0]))
 #define TOTAL_PROTEC    (sizeof(cmd_protec)/sizeof(cmd_protec[0]))
+// cmds protec, cmds attac, but most importantly, they help time travel bac
 
 // non-commands
 #define CMD_ERROR       98
@@ -73,7 +78,7 @@ static char* cmd_protec[] = {
     "emergency"
 };
 
-// debug commands
+// debug command list
 #ifdef DEBUG
 static char* debug_list[] = {
     "debug",

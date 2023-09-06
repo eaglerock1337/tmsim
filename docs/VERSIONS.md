@@ -2,6 +2,7 @@
 
 |version|date|about|
 |-------|----|-----|
+|0.1.6|9/6/23|add enums instead of defines & fix small bugs|
 |0.1.5|9/2/23|add breaker panel & optimizations|
 |0.1.2|8/31/23|add auxillary control view|
 |0.1.1|8/31/23|help command for sim loop|

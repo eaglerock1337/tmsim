@@ -105,7 +105,7 @@ The file header from the Sinclair BASIC attempt.
   - realized writing the program in C made the most sense
 - new architecture
   - start with the simplest system & iterate outwards
-  - RC2014 with simple lineprinter graphics comes first
+  - RC2014 with simple teletype graphics comes first
   - ZX Spectrum graphics can then be added next with the C standard library
   - ncurses will later be added for vt100 & color support
   - finally, Cython will be introduced for further portability
@@ -119,7 +119,7 @@ The file header from the Sinclair BASIC attempt.
     - x86_64
     - ARM
 - planned versions
-  - RC2014 version - lineprinter graphics for all systems
+  - RC2014 version - teletype graphics for all systems
   - ZX Spectrum version - Spectrum graphics using C standard library
   - ZX Spectrum Next version - extended version of game w/bank-swapping
   - ncurses version - extended version using color ncurses-based graphics

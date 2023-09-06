@@ -6,7 +6,7 @@
 
 I'll tell you a story all about it later.
 
-For now, I am documenting the [versions](./VERSIONS.md) and have documented some [history](./HISTORY.md).
+For now, I am documenting the [versions](./docs/VERSIONS.md) and have documented some [history](./docs/HISTORY.md).
 
 ## architecture
 

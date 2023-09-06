@@ -8,86 +8,87 @@
 * TMSim - Time machine header file
 ***************************************/
 
-// basic power status
-#define OFF     0
-#define ON      1
-#define IS_FLT  2
+// power constants
+enum powers { OFF, ON, IS_FLT };
 
-// power string constants
 static char* power_str[] = {"OFF", "ON", "FLT"};
 
-// display statuses
-#define NOM     0   // nominal status
-#define INF     1   // info status
-#define WRN     2   // warning status
-#define FLT     3   // fault status
+/****** enum constants *****/
 
-// part types
-#define AUXILLARY   0
-#define CRITICAL    1
-#define COMPUTER    2
+// basic constants
+enum statuses { NOM, INF, WRN, FLT };
+enum part_types { AUXILLARY, CRITICAL, COMPUTER };
 
-// critical part status ids
-#define POWER       0
-#define SUPPORT     1
-#define AIRLOCK     2
-#define CIRCUITS    3
-#define CONSOLE     4
-#define RC2014      5
-#define ALL_CRIT    6
-#define PWR_LOCK    7
+// part IDs
+enum critical_part_ids {
+    POWER,
+    SUPPORT,
+    AIRLOCK,
+    CIRCUITS,
+    CONSOLE,
+    RC2014,
+    ALL_CRIT,
+    PWR_LOCK
+};
 
-// auxillary part status ids
-#define SENSORS     0
-#define SHIELD      1
-#define HOVER       2
-#define TESLA       3
-#define FUSION      4
-#define STEAM       5
+enum auxillary_part_ids {
+    SENSORS,
+    SHIELD,
+    HOVER,
+    TESLA,
+    FUSION,
+    STEAM
+};
 
-// RC2014 computer part ids
-#define BACKPLANE   0
-#define CLOCK       1
-#define Z80_CPU     2
-#define MEMORY      3
-#define SERIAL_IO   4
-#define HW_BRIDGE   5
+enum computer_part_ids {
+    BACKPLANE,
+    CLOCK,
+    Z80_CPU,
+    MEMORY,
+    SERIAL_IO,
+    HW_BRIDGE
+};
 
-// critical power bitwise values
-#define POWER_ON    1
-#define SUPPORT_ON  2
-#define AIRLOCK_ON  4
-#define CIRCUITS_ON 8
-#define CONSOLE_ON  16
-#define RC2014_ON   32
-#define CRITICAL_ON 64
-#define PWR_LOCK_ON 128
+// bitwise values
+enum critical_bitwise_values {
+    POWER_ON = 1,
+    SUPPORT_ON = 2,
+    AIRLOCK_ON = 4,
+    CIRCUITS_ON = 8,
+    CONSOLE_ON = 16,
+    RC2014_ON = 32,
+    CRITICAL_ON = 64,
+    PWR_LOCK_ON = 128
+};
 
-// critical status bitwise values
-#define POWER_OK    1
-#define SUPPORT_OK  2
-#define AIRLOCK_OK  4
-#define CIRCUITS_OK 8
-#define CONSOLE_OK  16
-#define RC2014_OK   32
-#define CRITICAL_OK 64
-#define COORDS_OK   128
+enum critical_bitwise_status {
+    POWER_OK = 1,
+    SUPPORT_OK = 2,
+    AIRLOCK_OK = 4,
+    CIRCUITS_OK = 8,
+    CONSOLE_OK = 16,
+    RC2014_OK = 32,
+    CRITICAL_OK = 64,
+    PWR_LOCK_OK = 128
+};
 
-// auxillary power bitwise vales
-#define SENSORS_ON  1
-#define SHIELD_ON   2
-#define HOVER_ON    4
-#define TESLA_ON    8
-#define FUSION_ON   16
-#define STEAM_ON    32
+enum auxillary_bitwise_values {
+    SENSORS_ON = 1,
+    SHIELD_ON = 2,
+    HOVER_ON = 4,
+    TESLA_ON = 8,
+    FUSION_ON = 16,
+    STEAM_ON = 32
+};
 
-// auxillary status bitwise values
-#define SENSORS_OK  1
-#define SHIELD_OK   2
-#define HOVER_OK    4
-#define TESLA_OK    8
-#define FUSION_OK   16
-#define STEAM_OK    32
+enum auxillary_bitwise_status {
+    SENSORS_OK = 1,
+    SHIELD_OK = 2,
+    HOVER_OK = 4,
+    TESLA_OK = 8,
+    FUSION_OK = 16,
+    STEAM_OK = 32
+};
 
 /***** data structures *****/
 

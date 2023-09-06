@@ -13,15 +13,16 @@
 * and features (such as RTC support).
 ***************************************/
 
-// text delay mappings
-#define MAIN_MENU   0
-#define SLOW_NARR   1
-#define NORM_NARR   2
-#define FAST_NARR   3
-#define SLOW_TDOS   4
-#define NORM_TDOS   5
-#define FAST_TDOS   6
-#define ENDING      7
+enum delay_mappings {
+    MAIN_MENU,
+    SLOW_NARR,
+    NORM_NARR,
+    FAST_NARR,
+    SLOW_TDOS,
+    NORM_TDOS,
+    FAST_TDOS,
+    ENDING
+};
 
 // delay array mappings (matching above)
 static const uint16_t delays[8] = {

@@ -9,12 +9,14 @@
 ***************************************/
 
 // stats array mappings
-#define WISDOM          0
-#define INTELLIGENCE    1
-#define ENGINEERING     2
-#define DEXTERITY       3
-#define DISGUISE        4
-#define LUCK            5
+enum stats {
+    WISDOM,
+    INTELLIGENCE,
+    ENGINEERING,
+    DEXTERITY,
+    DISGUISE,
+    LUCK
+};
 
 struct player {
     uint8_t stats[6];   // all 6 player stats

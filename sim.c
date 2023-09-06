@@ -93,7 +93,7 @@ void view_control_panel(struct time_machine* tm, struct player* p) {
         printf("    | |4| %3s  | |5| %3s  | |6| %3s  | |7| %3s  |\n",
                print_power_status(tm, CIRCUITS, true),
                print_power_status(tm, CONSOLE, true),        
-               print_power_status(tm, COMPUTER, true),
+               print_power_status(tm, RC2014, true),
                print_power_status(tm, PWR_LOCK, true));
         printf("%s", panel_line);
         delay(1024);
@@ -259,7 +259,7 @@ void view_repairs(struct time_machine* tm, struct player* p) {
 
 void action_help(void) {
     narrate("\nTo select an action listed above, type the number in bars\n"
-            "next to it (e.g. |2|) and press enter.\n", NORM);
+            "  next to it (e.g. |2|) and press enter.\n", NORM);
     narrate("\nType the following letter for these general actions:\n", NORM);
     for (int i = 0; i < GEN_ACTIONS; i++) {
         narrate(general_actions[i], NORM);
@@ -339,10 +339,12 @@ void check_general_actions(struct time_machine* tm, struct player* p, int respon
 }
 
 void check_computer(struct time_machine* tm, struct player* p) {
-    if (!get_power_status(tm, COMPUTER, true)  ||
-         get_fault_status(tm, COMPUTER, true) || 
-        !get_power_status(tm, CONSOLE, true)  ||
+    if (!get_power_status(tm, RC2014, true)  ||
+         get_fault_status(tm, RC2014, true)  || 
+        !get_power_status(tm, CONSOLE, true) ||
          get_fault_status(tm, CONSOLE, true)) {
         p->view = VIEW_COMPUTER;
-    } else { p-> view = VIEW_CONSOLE; }
+    } else { 
+        p-> view = VIEW_CONSOLE;
+    }
 }

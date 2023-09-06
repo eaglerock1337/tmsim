@@ -10,36 +10,33 @@
 * TMSim - Main simulator header file
 ***************************************/
 
-// text print speeds
-#define FAST    0
-#define NORM    1
-#define SLOW    2
+enum print_speeds { FAST, NORM, SLOW };
 
-/***** view constants *****/
+enum views {
+    VIEW_INSIDE,
+    VIEW_CONTROL,
+    VIEW_AUXILLARY,
+    VIEW_BREAKER,
+    VIEW_COMPUTER,
+    VIEW_CONSOLE,
+    VIEW_STORAGE,
+    VIEW_REPAIRS,
+    VIEW_OUTSIDE
+};
 
-#define VIEW_INSIDE     0
-#define VIEW_CONTROL    1
-#define VIEW_AUXILLARY  2
-#define VIEW_BREAKER    3
-#define VIEW_COMPUTER   4
-#define VIEW_CONSOLE    5
-#define VIEW_STORAGE    6
-#define VIEW_REPAIRS    7
-#define VIEW_OUTSIDE    8
-
-/***** action preprocessor declarations *****/
-
-// view-based actions - ASCII 0-9
-#define ACTION_ZERO     0x30
-#define ACTION_ONE      0x31
-#define ACTION_TWO      0x32
-#define ACTION_THREE    0x33
-#define ACTION_FOUR     0x34
-#define ACTION_FIVE     0x35
-#define ACTION_SIX      0x36
-#define ACTION_SEVEN    0x37
-#define ACTION_EIGHT    0x38
-#define ACTION_NINE     0x39
+// view menu actions - ASCII 0-9
+enum view_actions {
+    ACTION_ZERO = 0x30,
+    ACTION_ONE,
+    ACTION_TWO,
+    ACTION_THREE,
+    ACTION_FOUR,
+    ACTION_FIVE,
+    ACTION_SIX,
+    ACTION_SEVEN,
+    ACTION_EIGHT,
+    ACTION_NINE
+};
 
 // general actions - ASCII letters
 #define ACTION_HELP     0x48    // uppercase H

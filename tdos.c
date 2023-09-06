@@ -57,7 +57,9 @@ void tdos_command_loop(struct time_machine* tm, struct player* p) {
 }
 
 uint8_t check_cmd(char *s) {
-    if (strlen(s) == 0) { return CMD_NULL; }
+    if (strlen(s) == 0) {
+        return CMD_NULL;
+    }
 
     // normal command list
     for (uint8_t i = 0; i < TOTAL_CMD; i++) {
