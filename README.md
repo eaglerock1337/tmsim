@@ -33,3 +33,11 @@ Additional modules support the game by providing data structures & helper functi
 - `text.c`    - base-level text print routines
 
 I'm sure I'll have some files containing the game data unless I somehow figure out how to avoid needing to store a lot of game text.
+
+## design constraints
+
+Since this has to fit within approximatly 40K of RAM to fit on the RC2014 and work with CP/M, I am saving on memory as much as possible, including passing along game state via pointers as much as possible to avoid duplicating data in memory.
+
+As a result, the codebase includes a lot of nonpure functions that alter game state through struct pointers. While this is one step above using global variables, it at least makes it clear what is being adjusted.
+
+I am also heavily relying on the preprocessor to allow keeping as much data as possible within simple, one-byte variables, indexed with enumerated values for code readability.

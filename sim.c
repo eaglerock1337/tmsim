@@ -358,5 +358,3 @@ void check_computer(struct time_machine* tm, struct player* p) {
         p->view = VIEW_CONSOLE;
     }
 }
-
-void damage_part()

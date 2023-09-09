@@ -1,7 +1,7 @@
 # standard c source code files
-CFILES=tmsim.c tm.c sim.c tdos.c player.c text.c
+CFILES=tmsim.c tm.c sim.c tdos.c player.c text.c date.c
 # generic c compiler ofiles
-OFILES=tmsim.o tm.o sim.o tdos.o player.o text.o
+OFILES=tmsim.o tm.o sim.o tdos.o player.o text.o date.o
 # z88dk/sdcc compiler files for rc2014
 ZFILES=tmsim.ihx tmsim_BSS.bin tmsim_CODE.bin
 
