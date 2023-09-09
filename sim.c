@@ -84,17 +84,17 @@ void view_control_panel(struct time_machine* tm, struct player* p) {
         printf("    |Power Bank|Power Unit|Life Supp.| Air Lock |\n");
         printf("%s", panel_line2);
         printf("    | %6ikJ | |1| %3s  | |2| %3s  | |3| %3s  |\n",
-               tm->energy, print_power_status(tm, POWER, true),
-               print_power_status(tm, SUPPORT, true),
-               print_power_status(tm, AIRLOCK, true));
+               tm->energy, print_power_status(tm, POWER, CRITICAL),
+               print_power_status(tm, SUPPORT, CRITICAL),
+               print_power_status(tm, AIRLOCK, CRITICAL));
         printf("%s", panel_line);
         printf("    |Time Circ.| Console  | Computer |Power Lock|\n");
         printf("%s", panel_line2);
         printf("    | |4| %3s  | |5| %3s  | |6| %3s  | |7| %3s  |\n",
-               print_power_status(tm, CIRCUITS, true),
-               print_power_status(tm, CONSOLE, true),        
-               print_power_status(tm, RC2014, true),
-               print_power_status(tm, PWR_LOCK, true));
+               print_power_status(tm, CIRCUITS, CRITICAL),
+               print_power_status(tm, CONSOLE, CRITICAL),        
+               print_power_status(tm, RC2014, CRITICAL),
+               print_power_status(tm, PWR_LOCK, CRITICAL));
         printf("%s", panel_line);
         delay(1024);
         narrate("You can press one of the numbered buttons or |0| look away.\n", NORM);
@@ -104,16 +104,23 @@ void view_control_panel(struct time_machine* tm, struct player* p) {
     delay(2048);
     input[0] = get_response();     // pull one char into the input buffer
     switch(input[0]) {
-    case ACTION_ONE:    action_button(tm, p, POWER, true);      break;
-    case ACTION_TWO:    action_button(tm, p, SUPPORT, true);    break;
-    case ACTION_THREE:  action_button(tm, p, AIRLOCK, true);    break;
-    case ACTION_FOUR:   action_button(tm, p, CIRCUITS, true);   break;
-    case ACTION_FIVE:   action_button(tm, p, CONSOLE, true);    break;
-    case ACTION_SIX:    action_button(tm, p, RC2014, true);     break;
-    case ACTION_SEVEN:  action_power_lock(tm, p);               break;
+    case ACTION_ONE:    action_button(tm, p, POWER, CRITICAL);      break;
+    case ACTION_TWO:    action_button(tm, p, SUPPORT, CRITICAL);    break;
+    case ACTION_THREE:  action_button(tm, p, AIRLOCK, CRITICAL);    break;
+    case ACTION_FOUR:   action_button(tm, p, CIRCUITS, CRITICAL);   break;
+    case ACTION_FIVE:   action_button(tm, p, CONSOLE, CRITICAL);    break;
+    case ACTION_SIX:
+        action_button(tm, p, RC2014, CRITICAL);
+        if (get_power_status(tm, CONSOLE, CRITICAL)) {
+            narrate("You turn your attention to the screen as the computer starts.\n", NORM);
+        }
+    case ACTION_SEVEN:  
+        action_power_lock(tm, p);
+        break;
     case ACTION_ZERO:   
         narrate("You look away from the control panel.\n", NORM);
-        p->view = VIEW_INSIDE; p->new_view = true;              break;
+        p->view = VIEW_INSIDE; p->new_view = true;                  
+        break;
     default:    check_general_actions(tm, p, input[0]);
     }
 }
@@ -130,17 +137,17 @@ void view_aux_panel(struct time_machine* tm, struct player* p) {
         printf("%s", panel_line2);
         printf("    |%3i aggro | |1| %3s  | |2| %3s  | |3| %3s  |\n",
                // TODO: fix this
-               print_power_status(tm, SENSORS, false) ? p->aggro : -1,
-               print_power_status(tm, SENSORS, false),
-               print_power_status(tm, SHIELD, false),
-               print_power_status(tm, HOVER, false));
+               print_power_status(tm, SENSORS, AUXILLARY) ? p->aggro : -1,
+               print_power_status(tm, SENSORS, AUXILLARY),
+               print_power_status(tm, SHIELD, AUXILLARY),
+               print_power_status(tm, HOVER, AUXILLARY));
         printf("%s", panel_line);
         printf("    |Tot.Energy|Tesla Coil|Mr. Fusion|Steam Gen.|\n");
         printf("%s", panel_line2);
         printf("    | %6ikJ | |4| %3s  | |5| %3s  | |6| %3s  |\n",
-               tm->energy, print_power_status(tm, TESLA, false),
-               print_power_status(tm, FUSION, false),        
-               print_power_status(tm, STEAM, false));
+               tm->energy, print_power_status(tm, TESLA, AUXILLARY),
+               print_power_status(tm, FUSION, AUXILLARY),        
+               print_power_status(tm, STEAM, AUXILLARY));
         printf("%s", panel_line);
         delay(1024);
         narrate("You can press one of the numbered buttons or |0| look away.\n", NORM);
@@ -150,11 +157,12 @@ void view_aux_panel(struct time_machine* tm, struct player* p) {
     delay(2048);
     input[0] = get_response();     // pull one char into the input buffer
     switch(input[0]) {
-    case ACTION_ONE:    action_button(tm, p, SENSORS, false);    break;
-    case ACTION_TWO:    action_button(tm, p, SHIELD, false);     break;
-    case ACTION_THREE:  action_button(tm, p, HOVER, false);      break;
-    case ACTION_FOUR:   action_button(tm, p, TESLA, false);      break;
-    case ACTION_FIVE:   action_button(tm, p, FUSION, false);     break;
+    case ACTION_ONE:    action_button(tm, p, SENSORS, AUXILLARY);   break;
+    case ACTION_TWO:    action_button(tm, p, SHIELD, AUXILLARY);    break;
+    case ACTION_THREE:  action_button(tm, p, HOVER, AUXILLARY);     break;
+    case ACTION_FOUR:   action_button(tm, p, TESLA, AUXILLARY);     break;
+    case ACTION_FIVE:   action_button(tm, p, FUSION, AUXILLARY);    break;
+    case ACTION_SIX:    action_button(tm, p, STEAM, AUXILLARY);     break;
     case ACTION_ZERO:   
         narrate("You look away from the control panel.\n", NORM);
         p->view = VIEW_INSIDE; p->new_view = true;              break;
@@ -174,8 +182,8 @@ void view_breaker_panel(struct time_machine* tm, struct player* p) {
         for (int i = 0; i < 6; i++) {
             printf("| %20s | %3s |%i| %-3s | %-20s |\n",
                    print_critical_part(i),
-                   breaker_disp[get_fault_status(tm, i, true)], i+1,
-                   breaker_disp[get_fault_status(tm, i, false)],
+                   breaker_disp[get_fault_status(tm, i, CRITICAL)], i+1,
+                   breaker_disp[get_fault_status(tm, i, AUXILLARY)],
                    print_auxillary_part(i));
         }
         printf("%s", breaker_line);
@@ -197,10 +205,12 @@ void view_breaker_panel(struct time_machine* tm, struct player* p) {
     case ACTION_SIX:    part = 5;       break;
     case ACTION_ZERO:   
         narrate("You look away from the breaker panel.\n", NORM);
-        p->view = VIEW_INSIDE; p->new_view = true;              break;
+        p->view = VIEW_INSIDE; p->new_view = true;
+        break;
     default:    check_general_actions(tm, p, input[0]);
     }
-    if (part == 255) { return; }    // dump out if a bank not selected
+    
+    if (part == 255) return;        // dump out if a bank not selected
 
     snprintf(print, PRINT_BUF, "\nUse [1] %s or [2] %s? ",
              print_critical_part(part), print_auxillary_part(part));
@@ -210,8 +220,8 @@ void view_breaker_panel(struct time_machine* tm, struct player* p) {
         printf("\n");
 #endif
     switch(input[0]) {
-    case ACTION_ONE:    action_breaker(tm, p, part, true);      break;
-    case ACTION_TWO:    action_breaker(tm, p, part, false);     break;
+    case ACTION_ONE:    action_breaker(tm, p, part, CRITICAL);      break;
+    case ACTION_TWO:    action_breaker(tm, p, part, AUXILLARY);     break;
     default:            narrate("Unrecognized input. Try again.", NORM);
     }
 }
@@ -279,7 +289,7 @@ void action_button(struct time_machine* tm, struct player* p, uint8_t part, bool
         narrate(print, NORM);
         narrate("It still is displaying a fault status.\n", NORM);
     } else if (get_power_status(tm, part, is_crit)) {
-        turn_off_part(part, true, tm);
+        turn_off_part(part, is_crit, tm);
         snprintf(print, PRINT_BUF, "\nAfter pressing the button, the %s turns off.\n", part_name);
         narrate(print, NORM);
         narrate("\nThe control panel lights flicker and update the display.\n", NORM);
@@ -339,12 +349,14 @@ void check_general_actions(struct time_machine* tm, struct player* p, int respon
 }
 
 void check_computer(struct time_machine* tm, struct player* p) {
-    if (!get_power_status(tm, RC2014, true)  ||
-         get_fault_status(tm, RC2014, true)  || 
-        !get_power_status(tm, CONSOLE, true) ||
-         get_fault_status(tm, CONSOLE, true)) {
+    if (!get_power_status(tm, RC2014, CRITICAL)  ||
+         get_fault_status(tm, RC2014, CRITICAL)  || 
+        !get_power_status(tm, CONSOLE, CRITICAL) ||
+         get_fault_status(tm, CONSOLE, CRITICAL)) {
         p->view = VIEW_COMPUTER;
     } else { 
-        p-> view = VIEW_CONSOLE;
+        p->view = VIEW_CONSOLE;
     }
 }
+
+void damage_part()

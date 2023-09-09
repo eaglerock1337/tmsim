@@ -13,7 +13,7 @@ CFLAGS += DEBUG
 # CFLAGS += MYFEATURE
 
 build:  $(OFILES)
-	gcc -o tmsim $(OFILES) -lm
+	gcc -o tmsim $(OFILES) -lm -ansi -Wall -Wextra -Wpedantic
 
 rcbuild:
 	docker run -v ${PWD}:/src/ -it z88dk/z88dk \
